@@ -1,0 +1,39 @@
+Installation into Debian-flavored Linux:
+Using standard Debian tools:
+Had to install npm, and a flavor of eslint came along with that for the ride,
+via the Debian package management "infrastructure," aptitude.
+
+Then, as the instructor specified, I ran the following from the
+shell prompt, inside the top-level directory of this repository:
+  npm install
+This got npm to install all of the needed node/javascript "packages"
+needed for the course.
+
+This included a flavor of the live-server, a newer/different flavor
+of the eslint tool, and some form of the prettier javascript code
+formatter/indenter.
+
+To get the live-server running, use:
+  npx live-server --no-browser .
+This will let you serve up basic stuff from within the entire project
+tree; point your browser at:
+  http://127.0.0.1:8080
+to get started.
+
+Also, run the prettier tool by:
+  npx prettier <JAVASCRIPT_FILE>
+
+Also, run the locally-installed flavor of eslint by:
+  npx eslint <JAVASCRIPT_FILE>
+
+The "npx" command is a node-javascript program "runner/launcher"
+used to run the "package/application" specified.
+
+I decided to run these "by hand" from the command line instead
+of trying to figure out how to run VSCode.  I wanted to stick
+to using Emacs as my text editor (which could probably invoke
+prettier and eslint for me just like VSCode does!) and did NOT
+want to further bloat my setup with one more "special editor"
+just to get through the course!
+
+Learning enough about how to use npm-ecosystem as it is...
