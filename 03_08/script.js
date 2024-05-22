@@ -19,6 +19,15 @@ const backpack = {
     this.strapLength.left = lengthLeft;
     this.strapLength.right = lengthRight;
   },
+  // anotherMethod: function (param1) {
+  // 	console.log(`This is the param1 passed to anotherMethod:  ${param1}`);
+  // },
+  // Just goes to show that one may certainly define "methods"
+  // via lambdas, i.e., "anonymous functions":
+  anotherMethod: (param1) => {
+    console.log(`This is the param1 passed to anotherMethod:  ${param1}`);
+    return null;
+  },
 };
 
 console.log("The backpack object:", backpack);
