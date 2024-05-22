@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Module demo</title>
+    <!-- NOTE FROM INSTRUCTOR:
+	 to get module-use to work properly, we must use the type="module" attribute
+	 in order to guarantee that the browser has both modules before everything
+	 is rendered.  This is pretty standard practice in JavaScript nowadays,
+	 even in plain vanilla JS.
+
+	 The other significant difference from the previous implementation
+	 is that the module's state is not visible to console-/top-level
+	 functionality...  So, in this implementation, we may NOT access the
+	 backpack object
+      -->
     <script type="module" src="backpack.js"></script>
     <script type="module" src="script.js"></script>
   </head>
