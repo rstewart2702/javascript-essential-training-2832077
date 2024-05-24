@@ -51,3 +51,18 @@ const content = `
 `;
 
 main.innerHTML = content;
+
+console.log(document.querySelectorAll(".packprop"))
+console.log("\n\n=====================\n\n")
+// Notice the hierarchical nature of the CSS language:
+// the HTML injected by the above javascript code
+// uses a string "packprop backpack__pockets" to specify the
+// CSS selector.  But when the time comes to query for it
+// using document.querySelectorAll, we must use
+// selector syntax which separates things hierarchically
+// using "." character?
+console.log(document.querySelectorAll(".packprop.backpack__pockets"))
+// The following returns an empty list, and depending on your
+// browser's console display, what you will see will vary...
+console.log(document.querySelectorAll(".packprop backpack__pockets"))
+// So, spaces in those selectors are equivalent to "."?
