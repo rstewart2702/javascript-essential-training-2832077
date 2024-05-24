@@ -37,3 +37,6 @@ want to further bloat my setup with one more "special editor"
 just to get through the course!
 
 Learning enough about how to use npm-ecosystem as it is...
+
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
