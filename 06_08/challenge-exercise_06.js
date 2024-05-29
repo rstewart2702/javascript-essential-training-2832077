@@ -15,6 +15,9 @@ const calculateTotal = (prices) => {
     totals.beforeTax = prices.reduce((a,b) => a + b, 0);
 
     // Your code starts here
+    totals.GST = totals.beforeTax * taxGST / 100;
+    totals.PST = totals.beforeTax * taxPST / 100;
+    totals.sum = totals.beforeTax + totals.PST + totals.GST;
 
     // Your code ends here
     
@@ -52,4 +55,4 @@ const randomPrices = Math.floor(Math.random() * pricesArr.length);
 // of "result" in another script loaded by the same page:
 result = showTotals(pricesArr[randomPrices]);
 
-console.log(`Results:  ${result}`);
+console.log(`Calculation result:  ${result}`);
