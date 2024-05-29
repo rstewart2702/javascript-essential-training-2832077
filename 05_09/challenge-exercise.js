@@ -26,6 +26,9 @@ function createNavMenu(document) {
           document.querySelector(".siteheader");
     const navElement =
           document.createElement("nav");
+    // The instructor's solution was:
+    //   navElement.classList.add("main-navigation")
+    // 
     navElement.className="main-navigation";
     /* AHA!  It turns out that there is a BIG
        difference between correctly setting
@@ -42,6 +45,11 @@ function createNavMenu(document) {
 
     const lstElement =
           document.createElement("ul");
+    // THIS IS NOT A RECOMMENDED PRACTICE, BUT WORKS
+    // FOR ILLUSTRATION PURPOSES.  THE RECOMMENDED
+    // PRACTICE IS TO CREATE THE INDIVIDUAL LIST ITEMS
+    // VIA THE INTERFACE PROVIDED BY document, ETC,
+    // INSTEAD OF DIRECTLY "INJECTING" HTML.
     lstElement.innerHTML = navContent;
 
     navElement.append(lstElement);
