@@ -75,17 +75,20 @@ function createBackpackMarkup(document) {
     // (which would have to be re-parsed, etc, right?)
     let content = Array();
     let pageElement = null;
-    backpackObjectArray.forEach(
-	(itm) => {
-	    pageElement = document.createElement("article");
- 	    pageElement.setAttribute("id",itm.id);
-	    pageElement.innerHTML = fcnPckContent(itm);
-	    // console.log(pageElement.outerHTML);
-	    content.push(pageElement);
-	}
+    
+    // we thus return an Array containing "article Element objects."
+    return (
+	backpackObjectArray.map(
+	    (itm) => {
+		pageElement = document.createElement("article");
+		pageElement.setAttribute("id",itm.id);
+		pageElement.innerHTML = fcnPckContent(itm);
+		return pageElement;
+	    }
+	)
     );
     // console.log(content);
-    return content; // thus content is an Array containing "article Element objects."
+    // return content; // thus content is an Array containing "article Element objects."
 }
 // This is how your code will be called.
 // Your answer should be the HTML output described in the challenge text.
