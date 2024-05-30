@@ -65,7 +65,7 @@ function createBackpackMarkup(document) {
 	    <ul>
 		<li>Volume:<span> ${backpackItm.volume}l</span></li>
 		<li>Color:<span> ${backpackItm.color}</span></li>
-		<li>Age:<span> ${backpackItm.dateAcquired} days old</span></li>
+		<li>Age:<span> ${backpackItm.backpackAge()} days old</span></li>
 		<li>Number of pockets:<span> ${backpackItm.pocketNum}</span></li>
 	    </ul>`;
 	}
@@ -81,7 +81,7 @@ function createBackpackMarkup(document) {
 	    pageElement.id = itm.id;
 	    pageElement.innerHTML = fcnPckContent(itm);
 	    // console.log(pageElement.outerHTML);
-	    content.push(pageElement);
+	    content.push(pageElement.outerHTML);
 	}
     );
     console.log(content);
@@ -94,7 +94,7 @@ const backpacksMarkupArray = createBackpackMarkup(document)
 // Combine the array items into a single output.
 const result = backpacksMarkupArray.reduce((combinedHTML, backpack) => {
     return combinedHTML + backpack.outerHTML;
-}, '');
+}, "");
 
 console.log(result)
 
@@ -104,7 +104,7 @@ console.log(result)
 // HTML page objects which've already been "marked up" as far as
 // I am concerned.
 backpacksMarkupArray.forEach((itm) => { document.body.append(itm); });
-document.body.appendChild(backpackListElt);
+// document.body.appendChild(backpackListElt);
 
 
 /**
