@@ -78,13 +78,13 @@ function createBackpackMarkup(document) {
     backpackObjectArray.forEach(
 	(itm) => {
 	    pageElement = document.createElement("article");
-	    pageElement.id = itm.id;
+ 	    pageElement.setAttribute("id",itm.id);
 	    pageElement.innerHTML = fcnPckContent(itm);
 	    // console.log(pageElement.outerHTML);
-	    content.push(pageElement.outerHTML);
+	    content.push(pageElement);
 	}
     );
-    console.log(content);
+    // console.log(content);
     return content; // thus content is an Array containing "article Element objects."
 }
 // This is how your code will be called.
