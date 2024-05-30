@@ -23,17 +23,22 @@ const processArray = deskArray => {
     let newDeskArr = [...deskArray];
 
     // Your code goes here
-    newDeskArr.pop();
-    newDeskArr.sort();
-    let lastItem = newDeskArr.pop();
-    newDeskArr.unshift(lastItem);
-    let usbIdx = newDeskArr.findIndex((itm)=>(itm == "USB drive"));
-    usbItm = newDeskArr[usbIdx];
-    newDeskArr.splice(usbIdx,1);
-    newDeskArr.push(usbItm);
-    newDeskArr.splice(
-        newDeskArr.findIndex((itm)=>(itm == "laptop")),
-        1);
+    newDeskArr.pop();  // remove last item
+    newDeskArr.sort(); // sort remaining items 
+    //
+    // Move last item into first position:
+    newDeskArr.unshift(newDeskArr.pop());
+    // let lastItem = newDeskArr.pop();
+    // newDeskArr.unshift(lastItem);
+    //
+    // Find the "USB drive" item in the array and move it into the last position:
+    // Note:  It's important to fetch element 0 of the array returned
+    //        by the splice method.  
+    //        Otherwise, one appends/pushes an array onto the newDeskArr array!
+    newDeskArr.push(newDeskArr.splice(newDeskArr.indexOf("USB drive"),1)[0]);
+    //
+    // Find the "laptop" item in the array and remove it:
+    newDeskArr.splice(newDeskArr.indexOf("laptop"),1)
 
     // Your code ends here
 
