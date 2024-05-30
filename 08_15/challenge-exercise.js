@@ -73,7 +73,6 @@ function createBackpackMarkup(document) {
     // which implies that "real" HTML elements should be produced,
     // the real data structure as opposed to the "flat" HTML text
     // (which would have to be re-parsed, etc, right?)
-    let content = Array();
     let pageElement = null;
     
     // we thus return an Array containing "article Element objects."
