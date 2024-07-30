@@ -127,3 +127,13 @@ backpacksMarkupArray.forEach((itm) => { document.body.append(itm); });
 // });
 
 // article.append(stuffList)
+
+// Trying to remember scoping rules:
+let fourteen = 14;
+fourteen = 15;
+
+// This will cause an error: 
+// let fourteen = 15;
+
+// this will cause an error:
+// showHints=true;
