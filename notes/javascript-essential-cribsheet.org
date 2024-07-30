@@ -25,7 +25,7 @@ equivalent to use of "var" correct?
 **** scope control for variables
 **** variable "hoisting"
 **** "temporal dead zone"
-** comparison operators
+*** comparison operators
 i.e., == versus =​=
 (N.B. there is a non-breaking space, 200B, between
 those final two equal-signs...
@@ -39,21 +39,21 @@ This is necessary because in org mode, a double-equals sign
 delimits something which should be rendered as bold-face text
 or some such...)
 
-** objects
+*** objects
 More like "structures" or "records" or like Python's "dictionary"
-** classes
-*** inheritance
-*** overriding?
+*** classes
+**** inheritance
+**** overriding?
 Does Javascript provide dynamic dispatch for overridden methods?
-** DOM changes via JavaScript
-*** Emphases in Morten Rand-Hendricksen JavaScript Course:
-**** DOM-manipulation
+*** DOM changes via JavaScript
+**** Emphases in Morten Rand-Hendricksen JavaScript Course:
+***** DOM-manipulation
 The Morten Rand-Hendricksen course on JavaScript did lots to
 fiddle with the styles assigned to individual page elements by
 simply mutating via assignments like:
   <element-item>.style.<style-attribute> = <some-value>;
 and other such mutations.
-**** iteration:
+***** iteration:
 Iteration over collections of page elements fetched via
   document.querySelectorAll('<CSS-STYLE-SPECIFICATION>')
 (or the querySelector method, also)
@@ -64,15 +64,43 @@ criteria, and changing it in specified ways.  When we have
 decided ahead of time that a certain set of page elements should
 have certain styles, this gives us a way to manipulate a set
 of page elements as a unit...
-*** document.querySelector
-*** document.querySelectorAll('<STYLE-SPECIFICATION>')
+**** document.querySelector
+**** document.querySelectorAll('<STYLE-SPECIFICATION>')
 What ain't terribly clear is how to write the <STYLE-SPECIFICATION>, eh?
-*** iterating over DOM elements seems to be a recurring theme!
-** setting up NPM for use on your workstation
+**** iterating over DOM elements seems to be a recurring theme!
+*** Array methods
+**** map
+**** reduce
+
+
+*** Peculiar:  Destructuring assignment
+
+**** Particular examples are shown in
+09_05/script.js saved in the main-personal branch.
+**** One example
+An example:
+let myObject = { first: 'firstval', key : 14, active: false };
+// And now, within the scope of a function, we "pull out" the elements/properties
+// of myObject, which is accessible from within the function body:
+(function() {
+  let {first: first , active: active} = myObject;
+  // And now, inside this function,
+  // identifier
+  //   first
+  // is bound to
+  //   myObject.first
+  // and myObject.first == 'firstval',
+  // and also, identifier
+  //   active
+  // is bound to myObject.active.
+  //
+  console.log(`${first} , ${active}`)
+ } ) ();
+// This outputs to console:
+//   firstval , false
+*** setting up NPM for use on your workstation
 see file runtime-setup-notes.txt
-** Array methods
-*** map
-*** reduce
+
 
 * understanding Javascript for long-term in Oracle Cloud Fusion
 Need to understand the rest of Javascript as quickly as possible, and then
