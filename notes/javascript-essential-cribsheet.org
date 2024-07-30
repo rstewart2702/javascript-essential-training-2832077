@@ -1,0 +1,128 @@
+
+* Declarative Languages for web:
+** CSS FUNDAMENTALS
+Need some kind of review of CSS;
+it's an entire rabbit hole unto itself...
+*** Class attributes:
+Apparently, more than one class attribute can be assigned to
+an HTML page element, as in:
+<li class="cell cell01"></li>
+defining a "list item" element with class attributes of "cell" and "cell01"?
+** HTML FUNDAMENTALS
+Yet another rabbit hole...
+
+
+* Procedural Languages for web:
+** JavaScript
+*** var, let, const and variable scopes
+**** var means it's a "global" scope variable
+**** let means it's a "local-to-enclosing-block" variable
+**** MOST of the time you want to use let 
+***** certainly when it's a variable local-to-a-block
+***** Use it in the "global" scope when you'd like to redefine it?
+NO:  actually, a "let" used at the "top" level is fundamentally
+equivalent to use of "var" correct?
+**** scope control for variables
+**** variable "hoisting"
+**** "temporal dead zone"
+** comparison operators
+i.e., == versus =​=
+(N.B. there is a non-breaking space, 200B, between
+those final two equal-signs...
+inserted via:
+  C-x 8 <RET> 200B <RET>
+It seems, after looking at it with hexl-mode, that there's
+further encoding done of "0x200b" into something else,
+because I do NOT see a sequence of 0B20 or something of
+the sort inside the hexl-mode view of this file!
+This is necessary because in org mode, a double-equals sign
+delimits something which should be rendered as bold-face text
+or some such...)
+
+** objects
+More like "structures" or "records" or like Python's "dictionary"
+** classes
+*** inheritance
+*** overriding?
+Does Javascript provide dynamic dispatch for overridden methods?
+** DOM changes via JavaScript
+*** Emphases in Morten Rand-Hendricksen JavaScript Course:
+**** DOM-manipulation
+The Morten Rand-Hendricksen course on JavaScript did lots to
+fiddle with the styles assigned to individual page elements by
+simply mutating via assignments like:
+  <element-item>.style.<style-attribute> = <some-value>;
+and other such mutations.
+**** iteration:
+Iteration over collections of page elements fetched via
+  document.querySelectorAll('<CSS-STYLE-SPECIFICATION>')
+(or the querySelector method, also)
+was often shown to demonstrate how to walk through a pile of
+stuff on a page and change how it looks.  This was a mechanism
+to allow one to find everything on the page which meets certain
+criteria, and changing it in specified ways.  When we have
+decided ahead of time that a certain set of page elements should
+have certain styles, this gives us a way to manipulate a set
+of page elements as a unit...
+*** document.querySelector
+*** document.querySelectorAll('<STYLE-SPECIFICATION>')
+What ain't terribly clear is how to write the <STYLE-SPECIFICATION>, eh?
+*** iterating over DOM elements seems to be a recurring theme!
+** setting up NPM for use on your workstation
+see file runtime-setup-notes.txt
+** Array methods
+*** map
+*** reduce
+
+* understanding Javascript for long-term in Oracle Cloud Fusion
+Need to understand the rest of Javascript as quickly as possible, and then
+get to where we understand how to use it to program with Oracle's JET?
+Need to know if "Visual Builder" applications are actually node-based
+applications which can be run inside a node application server,
+and which can be run on something other than Oracle's infrastructure.
+
+This ain't necessarily a bad thing, just a different thing.
+But not being allowed to run SQL in the way which we used to
+is going to be a major change for some folks on our team,
+and could become a big hurdle to overcome.
+
+* long-term thoughts about programming:
+If there is some hope, it might lie with the Plato programming
+language, by Christopher Diggins, and improved automation of the AEC
+world-of-business-operations.
+
+Architecture, Engineering, and Construction businesses need further
+help, and Diggins, a former Microsoft guy, started a consultancy
+to develop software and services for AEC firms.  Read more at:
+  https://ara3d.com/ his firm's website
+  https://github.com/cdiggins his github profile
+Diggins designed a concatenative programming language called
+Cat, which was forth-like language which also had type inference,
+so it was a concatenative, strongly-typed, functional programming
+language.
+
+* WSL kind of sucks
+WSL is barely adequate as a Linux environment:  there are
+enought quirks and irregularities that one pines for a
+standard, atop-the-metal Linux environment, in the best
+of circumstances.  That is, even when the host Windows system
+is not hobbled/encumbered with lots of extra mandated
+"infrastructure/gunk," WSL has all kinds of problems.  The
+only reasonable thing is that Microsoft is, to a degree,
+"forced" to deal with its problems, even if the fix you
+keenly need to deal with your particular vexing problem
+seems to be low on Microsoft's priority list!
+
+When Windows-underneath is further hobbled with inadequately-
+configured "security-protections" (invasive things like
+BeyondTrust and/or Crowdstrike) then WSL is just worse,
+and the host Windows system is so terribly hobbled that
+WSL can't work well:  for example, there isn't enough RAM
+left to allow it to function well and operate properly.
+
+This can tend to make WSL sound like a reasonable solution
+to certain classes of problems, until the ugly reality of
+severely curtailed and limited RAM kicks some teeth out
+and one realizes that the imposed "security" solutions
+render practical use of WSL impossible.
+
