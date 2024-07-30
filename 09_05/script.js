@@ -11,7 +11,20 @@ import backpackObjectArray from "./components/data.js";
 const lidToggle = function () {
    
   // Find the current backpack object in backpackObjectArray
-  let backpackObject = backpackObjectArray.find( ({ id }) => id === this.parentElement.id );
+  // Here are three equivalent ways to say this, all using variations
+  // on the "destructuring notation":
+  //
+  // let backpackObject = backpackObjectArray.find( ({ id }) => id === this.parentElement.id );
+  // 
+  // let backpackObject =
+  //     backpackObjectArray.find(
+  // 	  (o) => o.id === this.parentElement.id
+  //     );
+  //
+  let backpackObject =
+      backpackObjectArray.find(
+	  (o) => {let { id : id } = o; return id === this.parentElement.id}
+      );
   
   // Toggle lidOpen status
   backpackObject.lidOpen == true 
@@ -72,10 +85,16 @@ const backpackList = backpackObjectArray.map((backpack) => {
   const button = backpackArticle.querySelector(".lid-toggle")
   const status = backpackArticle.querySelector(".backpack__lid span")
 
-  button.addEventListener("click", (event) => {
-    console.log(event)
-    status.innerText === "open" ? status.innerText = "closed" : status.innerText = "open"
-  })
+  // This is a more concise way to hand in a reference to a callback function,
+  // and that function uses "this" (which must be some kind of implicit callback
+  // parameter, eh?)
+  button.addEventListen("click", buttonToggle);
+  //
+  // Former code to above line was:
+  // button.addEventListener("click", (event) => {
+  //   console.log(event)
+  //   status.innerText === "open" ? status.innerText = "closed" : status.innerText = "open"
+  // })
 
   return backpackArticle;
 });
