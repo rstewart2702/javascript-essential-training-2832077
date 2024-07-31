@@ -84,6 +84,22 @@ const backpackList = backpackObjectArray.map((backpack) => {
   backpackArticle.classList.add("backpack");
   backpackArticle.setAttribute("id", backpack.id);
 
+  // My gosh, there's a log going on in here:
+    // for starters, there's lots of string interpoloation happening,
+    // which means that there are function-evaluations being done
+    // which means that the "backpack" which was passed into thus
+    // function is being interrogated as this HTML is being built up.
+    // Not much of that is obvious, unless you know enough to look inside
+    // these ``-interpolated strings and the expresssions which are
+    // "interpolated" via the ${} substitution mechanism.n
+    // You must look for "${<EXPR>}" kinds of expressions, and then
+    // pay close attention to the stuff between the curly braces!
+    // Arrrgghhh!
+    //
+    // I dunno, man, it's like the worst of Unix shell scripting,
+    // plus peculiar, irregular scope rules, and a peculiar module
+    // system.  All rolled into one bundle, and with these web-standards
+    // things wrapped around it.  Good grief.
   backpackArticle.innerHTML = `
     <figure class="backpack__image">
       <img src=${backpack.image} alt="" loading="lazy" />
@@ -118,6 +134,16 @@ const backpackList = backpackObjectArray.map((backpack) => {
 
   // Call the newStrapLength() function and pass on the strapLengths node list.
   newStrapLength(strapLengths);
+  //
+  // These alternative attempts didn't work.
+  // I did not understand what invoking backpackArticle.querySelectorAll
+  // provides, and what the newStrapLength function expects to see!
+  //
+  // backpackArticle.querySelectorAll(".backpack__strap").map(newStrapLength)
+  /* backpackArticle.querySelectorAll(".backpack__strap").forEach(newStrapLength) */
+  /* let myA = Array.from(backpackArticle.querySelectorAll(".backpack__strap"))
+     myA.forEach(newStrapLength)
+  */
 
   let button = backpackArticle.querySelector(".lid-toggle");
   let newArg = "The argument I want to pass to the callback function!";
