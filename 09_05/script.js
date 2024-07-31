@@ -13,14 +13,14 @@ const lidToggle = function () {
   // Find the current backpack object in backpackObjectArray
   // Here are three equivalent ways to say this, all using variations
   // on the "destructuring notation":
-  //
+  // FIRST, ORIGINAL:
   // let backpackObject = backpackObjectArray.find( ({ id }) => id === this.parentElement.id );
-  // 
+  // SECOND VARIATION, MORE CONVENTIONAL:
   // let backpackObject =
   //     backpackObjectArray.find(
   // 	  (o) => o.id === this.parentElement.id
   //     );
-  //
+  // THIRD VARIATION WITH BLOCK-LOCAL VARIABLE AND FULL DESTRUCTURING:
   let backpackObject =
       backpackObjectArray.find(
 	  (o) => {let { id : id } = o; return id === this.parentElement.id}
