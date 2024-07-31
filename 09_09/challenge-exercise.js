@@ -34,8 +34,13 @@ function formListenerSetup(n,d) {
     frmElt.addEventListener(
 	"submit",
 	(event) => {
-	    // WAS NOT SURE IF THE FOLLOWING IS ABSOLUTELY NECESSARY
-	    // OR NOT!
+	    // This is absolutely necessary.
+	    // Also, when creating instances of Event and "dispatching"
+	    // them, it is important to pass in
+	    //   { cancelable: true }
+	    // as a parameter in Event instantiation/creation,
+	    // otherwise, the browser will not prevent the default
+	    // behavior.
 	    event.preventDefault();
 	    // I have access to the span element, but
 	    // we must also know what to put into the span's textContent.
@@ -90,9 +95,11 @@ updatePage(document);
     myEvent = new Event("submit",{cancelable: true});
     // THIS DOESN'T HAVE ANY EFFECT, NOT EVEN AN ERROR!  BUT THE cancelable PROPERTY IS READ-ONLY...
     // myEvent.cancelable = true;
+    //
+    // This "manually" triggers the event:
     frmElt . dispatchEvent(myEvent);
 
-  But Firefox just reloaded the page and did not show anything
+  Firefox just reloaded the page and did not show anything
   changed in the form, until I specified that the Event instance
   is cancelable by passing in the appropriate option object with
   field value 'cancelable' set to true.
