@@ -27,7 +27,58 @@ NO:  actually, a "let" used at the "top" level is fundamentally
 equivalent to use of "var" correct?
 **** scope control for variables
 **** variable "hoisting"
+Refers to the "legality" and "presence" of a variable
+being pushed to the top of its enclosing program block;
+Note:  from the top of an enclosing block, until the
+declaration of a block-level variable, the variable's
+value is "undefined," even though the variable exists.
+(Got that?)
 **** "temporal dead zone"
+Refers to the subprogram space between the start of an enclosing
+block and the definition of a variable (via declaration?)
+and in which the variable can't legally be used in a program,
+btw you're not even allowed to try and compare the variable to
+"undefined" in the "temporal dead zone!"
+***** EXAMPLE
+The following:
+  var myFifteen = 15;
+
+  { let myFifteen = 14; console.log(myFifteen); }
+
+  { console.log(myFifteen); let myFifteen = 14 }
+
+  console.log(myFifteen);
+results in:
+  14
+  Uncaught ReferenceError: Cannot access 'myFifteen' before initialization
+because we don't even get to the final console.log(myFifteen) because
+the second block results in that "Uncaught ReferenceError."
+So, no use of variables which haven't been declared yet, even to
+see if they're 'undefined...'
+
+However:
+  var myFifteen=15;
+  { let fcn = function () {console.log(myFifteen);}; let myFifteen=14; fcn(); }
+  console.log(myFifteen)
+results in:
+  14
+  15
+because that block's call to its locally-defined function, bound to
+the name "fcn", uses the local-to-block instance of the variable myFifteen,
+which is bound to the value 14 by the let-assignment, and by the time
+the function-named-by-fcn is invoked, that let-binding is in effect.
+
+And this completes without an uncaught ReferenceError:
+  var myFifteen=15;
+  { let myFifteen; let fcn = function() {console.log(myFifteen);};
+    if (myFifteen == undefined) console.log("It's undefined!"); else console.log(myFifteen) ;
+    myFifteen=14; fcn(); }
+  console.log(myFifteen)
+Its output:
+  It's undefined!
+  14
+  15
+
 *** comparison operators
 i.e., == versus =​=​=
 (N.B. there is a non-breaking space, 200B, between
@@ -105,7 +156,27 @@ let myObject = { first: 'firstval', key : 14, active: false };
 //   firstval , false
 *** setting up NPM for use on your workstation
 see file runtime-setup-notes.txt
+*** node-ecosystem
+**** package.json
+**** npm commands
+***** npm install
+***** npm install <MODULE-NAME>
 
+** TypeScript
+
+*** This is mandated by Oracle web stuff nowadays!
+
+** Oracle JET needs 
+
+*** TypeScript
+
+*** Nodejs
+
+*** NPM
+
+*** Preact
+Oracle made use of this and their JET documentation is
+bifurcated into the "virtual DOM" and "MVVM" thinking...
 
 * understanding Javascript for long-term in Oracle Cloud Fusion
 Need to understand the rest of Javascript as quickly as possible, and then
