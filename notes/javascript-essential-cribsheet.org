@@ -81,6 +81,7 @@ Its output:
 
 *** comparison operators
 i.e., == versus =​=​=
+**** AN EMACS ORG-MODE NOTE:
 (N.B. there is a non-breaking space, 200B, between
 those final two equal-signs...
 inserted via:
@@ -92,6 +93,21 @@ the sort inside the hexl-mode view of this file!
 This is necessary because in org mode, a double-equals sign
 delimits something which should be rendered as bold-face text
 or some such...)
+
+**** the difference between the two:
+<A> =​= <B> is, roughly,
+"see if <A> evaluates to something equal to what <B> evaluates into,
+given JavaScript's peculiar variable and equality rules."
+
+While the =​== is, roughtly,
+"see if <A> =​= <B> and also if <A> and <B> are the same type."
+(what ever "type" means in Javascript...)
+
+So, for example:
+  14 =​= "14"
+is true, but
+  14 =​=​= "14"
+is false.
 
 *** objects
 More like "structures" or "records" or like Python's "dictionary"
