@@ -29,10 +29,28 @@ equivalent to use of "var" correct?
 **** variable "hoisting"
 Refers to the "legality" and "presence" of a variable
 being pushed to the top of its enclosing program block;
+https://developer.mozilla.org/en-US/docs/Glossary/Hoisting
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#variable_hoisting
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#function_hoisting
+
+I seem to recall people talking about "hoisting" in
+terms of "function hoisting," in which the identifier
+gets "pushed" or "hoisted" up to the "top," when the
+identifier names a *function*.  On the other hand,
+*variable hoisting* seems to be different affair
+entirely.
+
+The use of the term "hoisting" seems to be a particular
+artifact of the JavaScript programming language design.
+Other languages are much more straightforward, and
+issues of identifier scope are simpler.
+
 Note:  from the top of an enclosing block, until the
 declaration of a block-level variable, the variable's
 value is "undefined," even though the variable exists.
-(Got that?)
+(Got that?)  Attempts to use the variable in the
+program block 
+See also:  "temporal dead zone."
 **** "temporal dead zone"
 Refers to the subprogram space between the start of an enclosing
 block and the definition of a variable (via declaration?)
@@ -181,6 +199,49 @@ see file runtime-setup-notes.txt
 ** TypeScript
 
 *** This is mandated by Oracle web stuff nowadays!
+
+*** TypeScript Essentials LinkedIn Learning Notes
+
+**** installation
+
+***** Install at the "project level"
+This sets it up as a "dev dependency" so that it does not
+end up installed "globally for the entire machine,"
+and allows you to change to different flavors/versions of
+typescript for each distinct project.  Installing as a
+"dev dependency" also means that typescript will only be
+needed at development time, and not used by your application
+at runtime:
+  npm install typescript --save-dev
+If you want it installed for the "entire machine," or
+"globally" then use the command:
+  npm install typescript -g
+
+Therefore, I may need to execute the
+  npm install typescript --save-dev
+for each lesson folder in the LinkedIn course?
+
+***** Special note on use for the LinkedIn course:
+I installed the typescript system at the top of the
+repo cloned from the instructor, which is 3 hops above
+the individual exercise file directory.  That is, in
+the top-level folder of the repository, I used:
+  npm install typescript --save-dev
+and from there, I could change to subordinate folder
+  cd exercise_files/Ch01/01_03b
+and execute:
+  npx tsc
+and it should build things appropriately.  One may use the
+--listFilesOnly option for the typescript compiler and
+have it vomit out all of the files it examines in order
+to do a "build," which is useful when trying to
+troubleshoot what the course materials are doing.
+
+What's more, the instructor is fond of shutting OFF the
+"emitting javascript" option so that no new output files are
+generated, via a tsconfig.json file, and so that "noEmit"
+in the compilerOptions of the tsconfig.json file may need
+to be fiddled with also.
 
 ** Oracle JET needs 
 
