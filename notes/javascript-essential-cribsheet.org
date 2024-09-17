@@ -1,3 +1,4 @@
+#+STARTUP: overview
 
 * Declarative Languages for web:
 ** CSS FUNDAMENTALS
