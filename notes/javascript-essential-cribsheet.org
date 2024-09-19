@@ -244,10 +244,153 @@ generated, via a tsconfig.json file, and so that "noEmit"
 in the compilerOptions of the tsconfig.json file may need
 to be fiddled with also.
 
+***** How to pull out type information
+The --declaration command-line argument to the compiler
+is one way to see the types the compiler has assigned
+to program objects.
+
+***** type "casting"
+You may force an assignment to a (strongly-)typed variable
+by using the "as" operator on the object in the RHS of the
+assignment; for example:
+  let x : string[];
+
+  x = "Hello!" as any;
+Tells the compiler to ignore the type of x.
+
+Probably useful for troubleshooting; bad in practice, for
+over-use means you've abandoned one of the reasons for
+using TypeScript in the first place.
+
+
+**** How types are used in TypeScript:
+
+***** type declarations
+Like so:
+  let <VAR0> : <TYPE0>
+and also in function signatures:
+  function exampleFunc(param1 : <TYPE1>,...) : <TYPEn> { ... }
+
+See also:  "generics"
+
+
+***** interfaces
+An "interface" is declared like so:
+  interface AnInterface {
+    <MEMBER0> : <TYPE0> [,;]
+    <MEMBER1> : <TYPE1> [,;]
+    ...
+  }
+And thusly AnInterface becomes a type name that can be
+used in type declarations, function/method return types,
+in their signatures, etc.
+
+***** generics
+Generics in declarations kind of follow the C++/Java/C# kind of
+notation, with, in general, multiple type-parameters enclosed in
+"<>" pairs.  And one may "constrain" a type with extends syntax,
+as in the following, where general type parameters are all-caps,
+and where other type names are "general," etc:
+  function
+    myFunction<TYPE1, TYPE2 extends TYPEn>
+      (p1 : numberOrSomething, p2 : TYPE1, ...) : returnType
+  { ... }
+
+***** type aliases
+e.g.,
+  type ContactName = string;
+simply a shortcut...
+
+***** Union types 
+
+****** A kind of discriminated union?
+another example:
+  type ContactBirthDate = Date | number | string
+this is a "union type" which specifies that ContactBirthDate
+may be one of three distinct types.  These are *alternatives*,
+different options.
+
+So, a ContractBirthDate-typed program object is a member of
+the set which is the UNION of the set of Date's, number's, string's...
+
+****** type "extensions/additions"
+There's also a way to bring together two distinct types
+together:
+  interface Contact  {
+      id: number;
+      name: ContactName;
+      birthDate?: ContactBirthDate;
+      status?: ContactStatus;
+  }
+
+  interface Address {
+      line1: string;
+      line2: string;
+      province: string;
+      region: string;
+      postalCode: string;
+  }
+
+  type AddressableContact = Contact & Address
+
+So, I suppose that the "set of things" in
+  keyof AddressableContact
+is the union of the two sets:
+  keyof Contact
+  AND
+  keyof Address
+
+****** alternative to "enum"
+In an alternative to "enum's" :
+  type ContactStatus = "active" | "inactive" | "new"
+means that something declared as type ContactStatus
+can be a string variable which is restricted to
+the three values "active", "inactive", "new".
+
+This can be shorter than:
+  enum ContactStatus {
+      Active = "active",
+      Inactive = "inactive",
+      New = "new"
+  }
+
+
+
+**** Esoteric Features
+***** Keyof operator
+One can construct "types" which are based on the "key values"
+available in an "object-type" (basically a record-object?).
+
+E.g., given:
+  type ContactName = string;
+  type ContactStatus = "active" | "inactive" | "new"
+  type ContactBirthDate = Date | number | string
+
+  interface Contact {
+      id: number;
+      name: ContactName;
+      birthDate?: ContactBirthDate;
+      status?: ContactStatus;
+  }
+we may define a type which is "the set of fields of Contact":
+  type ContactFields = keyof Contact
+
+And it's possible to use this in interesting, general ways
+in type-parameters used to define generic functions:
+  function getValue <T, U extends keyof T>(source:T, propertyName: U){
+      return source[propertyName]
+  }
+Notice that "U extends keyof T" as one of the type parameters:
+it's possible to constrain type parameters to be constrained by
+a type "keyof <TYPEx>" 
+  
+
+
+**** How does Oracle make use of TypeScript in their stuff?
+
 ** Oracle JET needs 
 
 *** TypeScript
-
 *** Nodejs
 
 *** NPM
@@ -309,4 +452,8 @@ to certain classes of problems, until the ugly reality of
 severely curtailed and limited RAM kicks some teeth out
 and one realizes that the imposed "security" solutions
 render practical use of WSL impossible.
+
+
+
+
 
