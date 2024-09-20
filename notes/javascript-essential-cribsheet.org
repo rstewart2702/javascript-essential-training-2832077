@@ -249,6 +249,17 @@ The --declaration command-line argument to the compiler
 is one way to see the types the compiler has assigned
 to program objects.
 
+
+**** How types are used in TypeScript:
+***** type declarations
+Like so:
+  let <VAR0> : <TYPE0>
+and also in function signatures:
+  function exampleFunc(param1 : <TYPE1>,...) : <TYPEn> { ... }
+
+See also:  "generics"
+
+
 ***** type "casting"
 You may force an assignment to a (strongly-)typed variable
 by using the "as" operator on the object in the RHS of the
@@ -261,17 +272,6 @@ Tells the compiler to ignore the type of x.
 Probably useful for troubleshooting; bad in practice, for
 over-use means you've abandoned one of the reasons for
 using TypeScript in the first place.
-
-
-**** How types are used in TypeScript:
-
-***** type declarations
-Like so:
-  let <VAR0> : <TYPE0>
-and also in function signatures:
-  function exampleFunc(param1 : <TYPE1>,...) : <TYPEn> { ... }
-
-See also:  "generics"
 
 
 ***** interfaces
@@ -301,6 +301,8 @@ e.g.,
   type ContactName = string;
 simply a shortcut...
 
+
+**** Esoteric Features
 ***** Union types 
 
 ****** A kind of discriminated union?
@@ -313,7 +315,7 @@ different options.
 So, a ContractBirthDate-typed program object is a member of
 the set which is the UNION of the set of Date's, number's, string's...
 
-****** type "extensions/additions"
+****** attribute unions:  type "extensions/additions"
 There's also a way to bring together two distinct types
 together:
   interface Contact  {
@@ -356,8 +358,18 @@ This can be shorter than:
 
 
 
-**** Esoteric Features
-***** Keyof operator
+***** typeof operator
+This seems to be general JavaScript
+AND
+TypeScript extends its use to its "structural types,"
+so that it's possible to specify all kinds of type specifications
+with it.  We may specify that a variable must be the same type
+as the type of another variable, as in:
+  let myType = { min: 1, max; 200 }
+
+  function save(source: typeof myType) {...}
+
+***** keyof operator
 One can construct "types" which are based on the "key values"
 available in an "object-type" (basically a record-object?).
 
@@ -384,9 +396,113 @@ Notice that "U extends keyof T" as one of the type parameters:
 it's possible to constrain type parameters to be constrained by
 a type "keyof <TYPEx>" 
   
+***** Specifying Object types
+
+****** Index signatures
+From typescriptlang.org's TypeScript Handbook:
+  interface StringArray {
+    [index: number]: string;
+  }
+
+  const myArray: StringArray = getStringArray()
+  const secondItem = myArray[1];
+
+So, secondItem is a string-typed variable.
+StringArray is a kind of JavaScript object which is
+indexed with number's, and which contains string's.
+
+They call that
+  [index: number]
+part the "index signature" part of the type signature/spec?
+
+This is the way one specifies that the StringArray-typed
+object can be accessed using the "indexing" notation in
+a program.
+
+It's also possible to add other fields/properties, too:
+  interface myIntfc {
+    [index: number] : number;
+    prop1 : number
+  }
+
+N.B. THERE IS A BIG DIFFERENCE BETWEEN INDEX SIGNATURES
+NOTATION IN type/interface DECLARATIONS, AND THE USE
+OF THE []-BRACKETS IN GENERIC TYPE SPEC/DECLARATION!!!
+
+Another example:
+  type myIntfc = {
+    // the following is meant to specify how accessing
+    // a myIntfc by index notation should work, type-wise:
+    [index: number] : string;
+    // This is a more ordinary specification of a property
+    // "prop1" which has type "number":
+    prop1 : number
+  }
+
+  let v3 : myIntfc = { prop1 : 4 }
+  v3[0] = "jack"
+  console.log(v3[0])
+  console.log(v3["prop1"])
+  console.log(v3)
+Should output:
+  jack
+  4
+  { '0': 'jack', prop1: 4 }
+
+
+****** Mapped types
+From the documentation site:
+"A mapped type is a generic type which uses a union of PropertyKey's
+(frequently created via keyof) to interate through keys to
+create a type..."
+
+The fundamental idea of a mapped type seems to be very
+JavaScript-oriented:  this allows us to specify a general
+quantification over all of the "keys"/attributes of a type
+(specified as a type parameter) derive a new type with the
+same attributes, but with types whose structure is a function
+of the original type-and-attribute-set.
+
+For example:
+  interface Item {
+    name : string;
+    age : number;
+  }
+
+  type QType2<ItmType> =
+    { [TProp in keyof ItmType]? : (v : ItmType[TProp]) => boolean;
+      ["ephemeral"|"something"] : (v : ItmType) => null }
+  let v1 : QType2<Item> =
+    { name : (v : string) => false, age : (v : number) => false }
+  
+
+
+***** TODO Indexed access types
+Use index access notation:
+  type Awesome = Contact["id"]
+This specifies that Awesome is of the same type as
+the type declared for the id propery of something that
+is a Contact type/interface.
+
+[2024-09-19 Thu 16:13] Need some notes here!
+
+***** Utility Types
+There are a bunch of parameterized/templated types
+which were added to help with a lot of things.
+****** TODO Record types
+The general syntax of a record lets you specify records
+with fields, in order, of TYPE1, TYPE2, etc:
+  Record< TYPE1, TYPE2...>
+
+****** Partial type
+
+****** 
 
 
 **** How does Oracle make use of TypeScript in their stuff?
+
+**** Do other teams in the organization use TypeScript strong-typing?
+
 
 ** Oracle JET needs 
 
