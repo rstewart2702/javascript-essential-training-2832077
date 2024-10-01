@@ -199,6 +199,47 @@ see file runtime-setup-notes.txt
 
 ** TypeScript
 
+*** Emacs as TypeScript IDE
+
++ installed lsp-mode package
+  M-x package-install RET lsp-mode RET
++ I *think* I updated the lsp-mode package, or else uninstalled it first
+  in order to get the most recent version.
++ I installed, next:
+  + M-x package-install RET lsp-ui RET
+  + M-x package-install RET flycheck RET
+  + M-x package-install RET company-mode RET
+  + M-x package-install RET lsp-treemacs RET
++ For typescript support, I set up the typescript language LSP stuff that runs
+  under node-js:
+  + M-x lsp-install-server RET ts-ls RET
++ Elisp expressions to use after opening that first ".ts" file:
+  + M-x lsp-mode
+    (starts up the language server and all of the other major pieces
+    to give nice completion and on-the-fly highlighting of errors, etc)
+  + M-x lsp-treemacs-errors-list
+    (pops up a tree-structured list of current errors, in the pane below.)
+  + M-x lsp-treemacs-symbols
+    (creates tree-structured list of the program symbols in the pane to the left.)
++ There are many features best accessed via right-clicking on the
+  various program identifiers and picking from a menu.  Many of them
+  can be invoked via "super-key" key combinations, but since there is not
+  a convenient "super-key" modifier key on my keyboard, the best we can
+  do is to "C-x @ s" before the key.  Thus, "s-l" is "C-x @ s l" and a bunch
+  of features are invoked as options to the "s-l"/"C-x @ s l" keyboard prefix;
+  you can see them next to their menu options in the right-click menu that
+  pops up.
++ SYNTAX HIGHLIGHTING:
+  + I also ended up installing the typescript-mode major-mode package,
+    which provided the syntax highlighting we see in things like VSCode.
+    Turn on typescript-mode, then turn on lsp-mode, and all is well, it
+    seems:  the lsp-based services work nicely to give you an Emacs version
+    of many of the niceties of using VSCode.
+  + There's nice package-management GUI stuff, but it's probably also
+    just as easy to run:
+      M-x package-install RET typescript-mode RET
+  
+
 *** This is mandated by Oracle web stuff nowadays!
 
 *** TypeScript Essentials LinkedIn Learning Notes
