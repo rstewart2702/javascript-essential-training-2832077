@@ -118,7 +118,7 @@ or some such...)
 "see if <A> evaluates to something equal to what <B> evaluates into,
 given JavaScript's peculiar variable and equality rules."
 
-While the =​== is, roughtly,
+While the =​== is, roughly,
 "see if <A> =​= <B> and also if <A> and <B> are the same type."
 (what ever "type" means in Javascript...)
 
@@ -193,9 +193,104 @@ let myObject = { first: 'firstval', key : 14, active: false };
 see file runtime-setup-notes.txt
 *** node-ecosystem
 **** package.json
+[2024-10-03 Thu 15:40] returned to the second nodejs course (Porcello, on
+LinkedIn Learning...)
+There's quite a bit there about the package.json file, and it lets
+you specify what modules your node project depends on.
+Commands like
+  npm install
+govern this, and the package.json lets you automatically fetch
+what is specified in the package.json under the key "dependencies"...
+
+Apparently, it's possible to have a "devDependencies" key also,
+to specify what you need ONLY for "development use," and such
+things will not ordinarily be installed/fetched when doing a
+"production" setup?
+
+Ordinarily, the installed packages will end up in the project
+folder's node_modules folder, right?  This makes its changes,
+the goop it brings in from the glorious repository-of-all-nodeness,
+locally-scoped to just your project, unless you specify that
+you want such packages installed *globally* using
+  npm install -g <MODULE_NAME>
+***** scripts key
+The "scripts" key lets you name-value-pair a shell script
+command to be invoked via npm;
+for example, a "scripts"-value pair might look like:
+  ...
+  "scripts": {
+    "start": "node index --time 14"
+  },
+  ...
+would let you run "npm start" from the command line and
+the shell script corresponding to package.json key "start"
+would be run on your behalf.  In this case the command
+  node index --time 14
+would be executed on your behalf.
+
+N.B. "start" is an exceptional key name; a script with any
+key other than "start" must be used by:
+  npm run <KEY>
+
 **** npm commands
 ***** npm install
+Will install all of the packages specified in the package.json
+"control file" (and this allows one to quickly set up a project
+which might've been checked out of source control, let's say...)
 ***** npm install <MODULE-NAME>
+Installs a particular module, and automatically makes entries
+into the package.json, right?  Switches like "-g" let you
+install the package into the "global" location on your machine,
+in case you want the package to be available for all nodejs
+use (which is done for things like compilers, etc...)
+
+It seems that *ordinarily* you won't do this when doing most
+development work.
+***** npm ls
+This lists the packages/modules that are in the current project's
+setup, i.e., in the current project's accessible node_modules
+folder, which is ./node_modules
+
+Now,
+  npm ls -g
+shows what is installed at the "global level" for the entire
+system, right?  This is all of the stuff "globally available..."
+
+Variations:
+  npm ll
+gives a longer-listing, more-detailed list of packages installed.
+
+The nodejs runtime tends to "crawl up and down" the directory
+structure, I think, and it knows where to look for things based
+on the package.json, amongst other things?
+
+***** npm run <KEY>
+Lets you run the scripts stored under <KEY> in the "scripts"
+part of the package.json structure;
+if the <KEY> is "start" then you can just run the "start"
+script with
+  npm start
+but otherwise you must explicitly use "npm run"...
+
+***** npm prune
+Will remove any of the modules/packages presently installed
+but which are not mentioned in the packages.json
+"dependencies" structure.
+
+So, it's possible to edit the "dependencies" in the package.json
+and run "npm prune" etc...
+
+
+**** npx commands
+
+***** npx live-server --no-browser .
+will let you serve up basic stuff from within the entire "project tree."
+
+***** node <JAVASCRIPT-PROGRAM-FILENAME>
+very primitive/elementary way to get something started
+from the command-line; used lots in the LinkedIn Learning
+Eve Porcello Node.js course on building elementary Node.js
+applications.
 
 ** TypeScript
 
@@ -341,6 +436,29 @@ and where other type names are "general," etc:
 e.g.,
   type ContactName = string;
 simply a shortcut...
+
+
+**** Importing third-party types
+This is extremely useful if you want to use a third-party
+Javascript library in a TypeScript system;
+There is usually a way to get TypeScript type definitions
+for a JavaScript library or Node.js Package you wish to use,
+right?
+
+a library which doesn't offer typescript support:
+you may have to get the compiler to emit the ".d.ts" files
+and then start modifying them with more explicit type
+definitions, no?
+
+Otherwise, you can find type definitions from
+  github.com/DefinitelyTyped/DefinitelyTyped
+AND
+all of the folders there are published as packages
+via the @types "pseudo-folder" inside npm.org, eh?
+
+So, you can often do something like
+  npm install @types/<SOME_PACKAGE>
+to get the types set up for <SOME_PACKAGE>
 
 
 **** Esoteric Features
