@@ -14,6 +14,79 @@ Yet another rabbit hole...
 
 
 * Procedural Languages for web:
+
+** Microsoft dotNet stuff:
+
+*** dotnet web core v8
+
+**** asp.net core v8
+[2024-11-04 Mon 13:53]
+This seems to hinge around the "portable/ported" flavor of the dotNet
+system, dotnet core v8.
+
+There's a "default web server" buried in the middle of this thing,
+called kestrel, and I'll bet that it is kestrel which is used,
+behind nginx, when running on a k8s cluster/pod?
+
+kestrel in a containerized application, right?
+
+There's a "dotnet cli" system, which is kind of like "Vite" in the
+React/node world:  it's a cli application runnable from Linux which
+lets you build out a start to an application with a short CLI command;
+this lets you build out various kinds of dotnet applications quickly...
+
+**** installation and setup
+
+***** debian-linux-under-wsl2
+https://learn.microsoft.com/en-us/dotnet/core/install/linux
+
+The wget2 command should be used instead of wget:
+  wget2 https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+  sudo dpkg -i packages-microsoft-prod.deb
+  rm packages-microsoft-prod.deb
+
+I used the aptitude terminal tool to:
++ update the packages-available information (this updated the indexes, etc, with
+  the info from packages.microsoft.com)
++ install dotnet-sdk-8.0
++ I had to later run:
+    dotnet workload update
+  because I was instructed to do so by the output from:
+    dotnet new console --help --language F#
+  
+
+And this should have set up the dotnet sdk cli tools for
+me, right?
+
+
+***** debian linux and emacs lsp setups
+It's nice to have intellisense/autocompletion options available
+in Emacs, and tools mentioned here make that possible.
+There are LSP-related tools for all kinds of programming
+languages that you can set up for Emacs to use.
+
+****** install or update jsonrpc package!
+
+****** install the lsp-mode
+
+****** install fsharp-mode 
+
+****** Is there a mode needed for typescript?
+There is a typescript langugage server provided via npm,
+and installation of that into the "global" nodejs setup seems
+to make it accessible, if you start up the lsp-mode in a
+node project's folder (which'll container folders of node-ish
+stuff that should be reachable by tools?)
+
+***** VScode for Linux
+[2024-11-06 Wed 20:48] I wanted to set up VScode in Linux,
+inside of WSL2, to use it directly there, and wanted to see if
+I could get it up-and-running to let me edit F#, C#, and
+TypeScript code.
+
+
+
+
 ** JavaScript
 *** modules
 **** import-ing
@@ -233,6 +306,57 @@ key other than "start" must be used by:
   npm run <KEY>
 
 **** npm commands
+***** GENERAL NOTE:
++ using --save-dev or -save-dev command line flag will cause
+  npm to set up development-time-only packages;
++ as noted elsewhere, the -g flag causes npm to install the
+  package "globally," into the package folder shared across
+  all projects, instead of installing into the local project's
+  folder structure.
++ the '@<MAJOR>.<MINOR>.<PATCH>' notation lets you specify after
+  a package-name the major, minor, and patch numbers for the package,
+  which lets you fine-tune which version of a particular package
+  you wish to install/update/uninstall, it seems
+
+
+***** npx command
+npx -p <PACKAGE_NAME> ...
+
+e.g.,
+  npx --p @angular/cli ng new myapp
+would set up an angular project in folder ./myapp without
+cramming all of the stuff associated with angular development
+into your machine, apparently...
+
+And package.json scripts can take advantage of the npx
+approach, too!
+
+See more documentation:  https://www.npmjs.com/package/npx
+
+
+
+***** npm SCRIPTING:
++ link:
+    https://docs.npmjs.com/cli/v9/using-npm/scripts
++ set up scripts to run from your package.json file...
+
+***** CACHE COMMANDS
+
+****** npm cache verify
+
+****** npm cache clean -force
+forces a cache cleanup;  helpful for troubleshooting
+
+***** npm audit
+only for npm version 6 and above;
+provides detailed report on current vulnerabilities and issues with the
+current project;
+
+
+***** npm outdated
+will give a report of those packages which are "outdated" so that
+you might be able to run "npm update" to bring them up to date...
+
 ***** npm install
 Will install all of the packages specified in the package.json
 "control file" (and this allows one to quickly set up a project
@@ -246,6 +370,7 @@ use (which is done for things like compilers, etc...)
 
 It seems that *ordinarily* you won't do this when doing most
 development work.
+***** npm uninstall
 ***** npm ls
 This lists the packages/modules that are in the current project's
 setup, i.e., in the current project's accessible node_modules
@@ -272,6 +397,20 @@ script with
   npm start
 but otherwise you must explicitly use "npm run"...
 
+***** npm exec <PACKAGE-NAME>?
+[2024-11-06 Wed 20:53] I was able to run the locally-installed
+local-web-server package and start serving node project stuff
+immediately:
+  npm exec local-web-server
+but note I needed to have the local-web-server installed into
+the local node-project folder hierarchy already:
+  rstewar@IMLADRIS:~/node-work/js-and-ts-exercises/Ex_Files_JavaScript_Async_2021/Exercise Files/Ch02/02_06/begin/_scripts
+  $ npm ll
+  js_async_exercises@1.0.0
+  | /home/rstewar/node-work/js-and-ts-exercises/Ex_Files_JavaScript_Async_2021
+  | Exercises in Asynchronous JavaScript/TypeScript; we want to use a local-server to increase instructional value.
+  `-- local-web-server@5.4.0
+
 ***** npm prune
 Will remove any of the modules/packages presently installed
 but which are not mentioned in the packages.json
@@ -291,6 +430,138 @@ very primitive/elementary way to get something started
 from the command-line; used lots in the LinkedIn Learning
 Eve Porcello Node.js course on building elementary Node.js
 applications.
+
+**** nvm and node 20
+[2024-11-06 Wed 16:39] I installed nvm into Debian WSL2 instance
+DebianWork by doing the following.  This was done in ordert to
+get node v20 set up inside of my Debian instance:
+
+I followed the instructions at:
+  https://nodejs.org/en/download/package-manager
+but the instructions were not perfect, because the url
+  https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh
+did not actually fetch anything.  Fortunately, I was able to get
+to the github repo in:
+  https://github.com/nvm-sh/nvm
+and find the nvm v0.40.0 installation script, and I fetched it
+with:
+  curl -o nvm-0.40.0-install.sh https://github.com/nvm-sh/nvm/releases/v0.40.0/install.sh
+and then ran it from a bash prompt after "chmod u+x"...
+
+Here is the output it made:
+  rstewar@IMLADRIS:~
+  $ ./nvm-0.40.0-install.sh
+  => Downloading nvm from git to '/home/rstewar/.nvm'
+  => Cloning into '/home/rstewar/.nvm'...
+  remote: Enumerating objects: 380, done.
+  remote: Counting objects: 100% (380/380), done.
+  remote: Compressing objects: 100% (323/323), done.
+  remote: Total 380 (delta 43), reused 175 (delta 29), pack-reused 0 (from 0)
+  Receiving objects: 100% (380/380), 382.20 KiB | 2.56 MiB/s, done.
+  Resolving deltas: 100% (43/43), done.
+  * (HEAD detached at FETCH_HEAD)
+    master
+  => Compressing and cleaning up git repository
+
+  => Appending nvm source string to /home/rstewar/.bashrc
+  => Appending bash_completion source string to /home/rstewar/.bashrc
+  => You currently have modules installed globally with `npm`. These will no
+  => longer be linked to the active version of Node when you install a new node
+  => with `nvm`; and they may (depending on how you construct your `$PATH`)
+  => override the binaries of modules installed with `nvm`:
+
+  /usr/local/lib
+  +-- typescript-language-server@4.3.3
+  `-- typescript@5.6.2
+  => If you wish to uninstall them at a later point (or re-install them under your
+  => `nvm` Nodes), you can remove them from the system Node as follows:
+
+       $ nvm use system
+       $ npm uninstall -g a_module
+
+  => Close and reopen your terminal to start using nvm or run the following to use it now:
+
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+Indeed, I see that:
+  rstewar@IMLADRIS:~
+  $ npm ll -g
+  /usr/local/lib
+  |
+  +-- typescript-language-server@4.3.3
+  |   Language Server Protocol (LSP) implementation for TypeScript using tsserver
+  `-- typescript@5.6.2
+      TypeScript is a language for application scale JavaScript development
+
+I will go ahead and try to keep them around, and then see if I can still
+edit TypeScript actively with Emacs after I update my local node to
+a flavor of node 20:
+
+I started up a new tmux "window" and then tried the rest of the commands
+on that nodejs.org instruction list:
+  rstewar@IMLADRIS:~
+  $ nvm install 20
+  Downloading and installing node v20.18.0...
+  Downloading https://nodejs.org/dist/v20.18.0/node-v20.18.0-linux-x64.tar.xz...
+  ########################################################################################################################################################################################################################### 100.0%Computing checksum with sha256sum
+  Checksums matched!
+  Now using node v20.18.0 (npm v10.8.2)
+  Creating default alias: default -> 20 (-> v20.18.0)
+
+Now, I see that, in the "fresh login," that I will need to install
+into the new "node installation," for I don't have the typescript
+language server anymore:
+  rstewar@IMLADRIS:~
+  $ npm ll -g
+  /home/rstewar/.nvm/versions/node/v20.18.0/lib
+  |
+  +-- corepack@0.29.3
+  |
+  `-- npm@10.8.2
+      a package manager for JavaScript
+
+So:
+  rstewar@IMLADRIS:~
+  $ npm install typescript-language-server -g
+
+  added 1 package in 5s
+  rstewar@IMLADRIS:~
+  $ npm ll -g
+  /home/rstewar/.nvm/versions/node/v20.18.0/lib
+  |
+  +-- corepack@0.29.3
+  |
+  +-- npm@10.8.2
+  |   a package manager for JavaScript
+  `-- typescript-language-server@4.3.3
+      Language Server Protocol (LSP) implementation for TypeScript using tsserver
+
+And then:
+  rstewar@IMLADRIS:~
+  $ npm install typescript -g
+
+  added 1 package in 6s
+  rstewar@IMLADRIS:~
+  $ npm ll -g
+  /home/rstewar/.nvm/versions/node/v20.18.0/lib
+  |
+  +-- corepack@0.29.3
+  |
+  +-- npm@10.8.2
+  |   a package manager for JavaScript
+  +-- typescript-language-server@4.3.3
+  |   Language Server Protocol (LSP) implementation for TypeScript using tsserver
+  `-- typescript@5.6.3
+      TypeScript is a language for application scale JavaScript development
+  
+And that seems to allow me to continue working with the TypeScript compiler,
+and the TypeScript language server, under Emacs,
+AND
+work with a later incarnation of Node.js server-piece.
+
+sigh.
 
 ** TypeScript
 
@@ -730,5 +1001,209 @@ render practical use of WSL impossible.
 
 
 
+* miscellaneous thoughts
+I would prefer to use a non-modal editor, frankly.  The Vi-way, which
+is a modal editor scheme, is just terribly disruptive to my thought-flow
+when I am writing something down at the keyboard.
 
+Using Emacs with the LSP server for TypeScript gives me most of the
+benefits of the VSCode experience, without the hassles of straddling
+the "WSL Barrier" and it seems to interface just fine with all of the
+other tools, and provide the auto-complete and hints that VSCode
+provides.
 
+** Rod Dreher on "The Sacred"
+[2024-11-04 Mon 09:59]
+Dreher spoke about how he'd idolized his childhood family life,
+including place and family and his own father's strength.
+
+Good part of his own father's strength was that his dad's way of
+doing things helped him to feel safe in the world growing up,
+even though the 1970's were turbulent and could be scary to a
+young boy.
+
+The bad part was that he realized that he'd turned his family
+and his father into a kind of idol, and he realized that his
+own family idolized family and place, too.
+
+they referenced the work of Alasdair McIntyre, a Scottish-Anglo-American
+philosopher who write a book called _After Virtue_...
+
+Elizabeth Oldfield found the concluding paragraph of later editions
+of McIntyre's book After Virtue to be inspiring; faith-community
+in the city of London, UK; there's a strong desire amongst Christians
+to "pull the ripcord" and escape from a city-setting;
+
+But, says Oldfield, some of us Christians, at least, need to be the
+people who serve their cities, by being a separate, distinct community
+embedded within the "secular city."  So, it is an "urbanized Benedict
+Option" kind of an approach; Dreher says that some people are made for
+city living, others for "country/rural living..."
+
+Dreher seems to notice that being a neighbor and inviting people into
+your home, even when you live in a city, matters greatly (echoes,
+resonances, with _The Gospel Comes with a Housekey_, etc.)
+
+"Withdrawing-from-the-world so we can be Christ-for-the-world in an
+authentic way..."
+
+He spoke of the Benedicting monastery:  if we don't close our doors
+at night and go and pray and worship together, then we can't be
+here for the people who come to us...
+
+So, there's a withdrawing for a time, and then "going forth," too...
+
+Dreher's change to Eastern Orthodoxy:  happened in 2006.
+He and his wife believed that Eastern Church was also authentic,
+since they were devout Catholics; they held "overwhelming fear and
+anger" towards the Catholic church; they felt that the Eastern
+church they visited actually took the "real presence" of Christ
+in the Lord's Supper seriously; there's this desire from people for
+the sense of the transcendant.
+
+Covid-era visitors to their Eastern church in Baton Rouge:  EO
+has stood the test of time; the saints:  rich tradition of the saints;
+covid frightened these people coming from other protestant churches
+(e.g., SBC?) brought them to visit the EO church.
+
+He visited the church/monastery in Chartres where Benedictine Order was
+founded?
+
+Old man who was a Monsignor talked of the miracles he witnessed and
+which brought him out of atheism...
+
+"Encounter with beauty and then radical goodness..."  this is what
+attracts people to the "wonder" and the transcendance...
+
+He spoke later of "morally complicated people" and how "it's better
+to look at how you *act* than how you *do*..."
+
+Dreher also remarked that his writing and his in-person conversation
+do "hit differently," and he laments this; he seems to be apologetic
+about this, about how he comes across as more strident in writing
+than he does in person.
+
+[2024-11-04 Mon 12:14] ANOTHER THOUGHT:
+Regarding politics, political theology, and the rights of the sojourner:
+At the institution of the Passover, in Exodus 12, the LORD instructs
+Moses and Aaron about the "stranger" who "shall sojourn with you" and
+how he or she can participate and "keep the Passover to the LORD."
+The LORD's concluding remark is, "There shall be one law for the
+native and for the stranger who sojourns among you." (Ex. 12.49)
+
+This comes at the event of the Exodus, the pivotal salvation-event of
+the Old Testament, which, for us as Christian believers, is also the
+astonishing, majestic, and wondrous foreshadowing of the work of the
+Lord Jesus on the cross to save sinners like us!  And the LORD
+declares that the same standard must apply for the "native and for the
+stranger who sojourns among you."
+
+It seems to me that politicians of a more leftist sort try to
+manipulate Christians who rightly are concerned about the rights of
+the sojourner.  At the same time, people who are "in the thick of it"
+raise the objection that there is a double standard, and that the
+sojourner is not held to the same standard as they.
+
+I think this is what Mr. Dreher may be trying to point us towards: it
+is good to take in the vulnerable, and to try to help, but the same
+standard, the same "one law for the native and the stranger who
+sojourns among you," must apply and be maintained by the magistrate,
+the governmental authority.
+
+Elizabeth Oldfield's struggling with the possibility that it is okay
+to vote
+
+Other references in the Torah:
+ Leviticus 19:34 - You shall treat the stranger who sojourns with you
+ as the native among you, and you shall love him as yourself, for you
+ were strangers in the land of Egypt: I am the LORD your God.
+
+ Read through Lev. 19.9-10, and then see how it leads into
+ the following passages:  Lev. 19.18, 19.33-37; Deut 10.18.
+
+[Need to enumerate all of the uses of the word "sojourner" in the
+Torah, as a jumping-off-point for all of this...  the point seems
+to be that the proper, non-discriminatory, equal treatment under
+God's law is a reflection of the LORD God and his character, and that
+the LORD did not see this as an "optional" thing to be applied only
+and where *we* feel it is fair.  Additionally, an implication of this
+is that there should be consequences for leaders who fail to equally
+apply the legal standard to the "sojourner" and "native" alike.]
+
+** struggling to write a comment:
+[2024-11-04 Mon 13:19]
+Regarding tensions over political theology:
+As a Christian of protestant stripe, I must continually refer back to
+the standard of God and his Word.  I think, and pray, that you have
+the same high view of God's word, and what it has to say about his
+character, and our desperate need for a Redeemer: without Christ's
+completed work on the cross, we have no hope, and are without God in
+the world (cf. Ephesians 2.)
+
+I must also admit to speaking from a North American perspective; in
+what follows, I am speaking from my own experience and about what we
+see and hear in the US.
+
+At the institution of the Passover, in Exodus 12, the LORD instructs
+Moses and Aaron about the "stranger" who "shall sojourn with you" and
+how he or she can participate and "keep the Passover to the LORD."
+The LORD's concluding remark is, "There shall be one law for the
+native and for the stranger who sojourns among you." (Ex. 12.49)
+
+This comes at the event of the Exodus, the pivotal salvation-event of
+the Old Testament, which, for us as Christian believers, is also the
+astonishing, majestic, and wondrous foreshadowing of the work of the
+Lord Jesus on the cross to save sinners like us!  And the LORD
+declares that the same standard must apply for the "native and for the
+stranger who sojourns among you."
+
+It seems to me that politicians of a more leftist sort, here in the
+USA, try to manipulate Christians who rightly are concerned about the
+rights of the sojourner.  These politicians sometimes try to accuse
+Christians of being racist and refusing to live consistently with
+Christian doctrine about caring for neighbor, etc, when objections
+about certain immigration policies are raised.
+
+Could this be (at least a part of) what Mr. Dreher may be trying to
+point us towards?  It is good and right to take in the vulnerable, and
+to try to help, but the same standard, the same "one law for the
+native and the stranger who sojourns among you," must apply and be
+maintained by the magistrate, the governmental authority.
+
+There are no easy answers here:
+US immigration law is a mess.  This makes it unnecessarily difficult
+and expensive to legally become a US citizen.  If we want to turn our
+(often hard-of-hearing) ears towards the heart of the LORD God about
+this, then I am afraid we will find that the LORD also hates it when
+we make laws and rules so complicated that we end up giving an unjust
+advantage to the wealthy!  Therefore we need Christian leaders to roll
+up their sleeves and wade into the mess that is US Immigration Law and
+clean it up, write new laws, reform that system.  It might require a
+"Wilberforcian" kind of lifetime effort (perhaps hearkening us back to
+the willingness-to-suffer Dreher referred to.)
+
+At the same time, it is also absolutely counter to the character and
+heart of the LORD God that crimes committed by sojourners are ignored.
+This seems to be the kind of problem that has people so angry in the
+USA: crimes committed by people who flock to so-called "sanctuary
+cities" in the US go unprosecuted.  There are instances of rape and
+murder, and when the crimes go unprosecuted, this is also an injustice
+which the LORD finds repugnant: this is also a sin which deserves his
+wrath, no?
+
+There are other issues as well: periodically, I hear of local school
+systems being overwhelmed by a massive influx of children who need
+remedial education in English, etc, because they have been allowed in
+by (presumably) well-meaning politicians who ignored the cries for
+restraint and pleas for time to plan and fund extra remedial efforts.
+How can an unprepared school system do the right thing for the
+children of sojourners when they are not allowed to prepare?  In what
+possible interpretation of Christian teaching is this to be construed
+as "caring for the vulnerable?"
+
+All this to say that Christians must dive in and work to address the
+legal system, the policy structure, and also call their fellow
+followers-ofJesus to engage, and care for the sojourner who crosses
+their path, and also to be magistrates/judges/officials who try to
+apply "one law for the native and for the stranger who sojourns among
+you."
