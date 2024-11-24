@@ -1,5 +1,31 @@
 #+STARTUP: overview
 
+* Engineer as teacher
+[2024-11-20 Wed 10:31] 
+What happened to on-the-job software-engineering education?
+Why don't we try to do more of that?
+
+[2024-11-20 Wed 20:18] I'm still kind of angry when I stop to think
+about it.  This is yet another case of having some pile of crap dumped
+in my lap by a team, and being expected to just "figure that stuff
+out," mostly on my own.  This makes me angry and impatient.
+
+I think I'm going to have to start firing off more emails and such to
+them: this gets a little ridiculous.
+
+It's one thing to be a self-learner, and that is admirable.  But when
+one is handed a big ball of mud, built with technologies that you're
+not familiar with, interacting in all sorts of non-orthogonal ways,
+then all the self- learning time in the world won't help speed things
+up to a meaningful degree.
+
+I can learn when I am given the latitude to learn about each of the
+tools and technologies and libraries in isolation.  When that happens,
+"being an autodidact" may work out in a timely manner.
+
+
+
+
 * Declarative Languages for web:
 ** CSS FUNDAMENTALS
 Need some kind of review of CSS;
@@ -14,6 +40,42 @@ Yet another rabbit hole...
 
 
 * Procedural Languages for web:
+
+** AWS essentials
+
+*** installation of the AWS CLI
+
+**** Python-specific
+AWS has big hunks of stuff written in Python, believe it or not.
+So, Python was a favorite of the AWS-borg collective...
+***** the boto3 package:
+install the boto3 package into a venv, and use that
+OR
+install boto3 "globally..."
+I chose to install it into a venv, and activate it
+
+**** Node specific
+There is a corresponding aws-sdk for node-js stuff that
+runs inside of AWS;
+There will likely be more things needed;
+
+**** AWS observations
+
+***** Python AND Node
+You need to be *both* somewhat literate in Python AND Node
+in order to "traffic in this universe," since both kinds of
+technology are used by those who wish to run in AWS-OS!
+
+***** Bezos, Jassy, & Co. are "language agnostic!"
+My goodness:  again, it can quickly degrade into a dog's
+breakfast, and Bezos don't care so long as you pay him for
+the use of *his* operating system, AWS.
+
+
+
+
+** WSL2 Linux in particular
+[2024-11-20 Wed 18:18] 
 
 ** Microsoft dotNet stuff:
 
@@ -84,13 +146,33 @@ inside of WSL2, to use it directly there, and wanted to see if
 I could get it up-and-running to let me edit F#, C#, and
 TypeScript code.
 
+[2024-11-20 Wed 19:01] You might need to change the
+/etc/wsl.conf and add:
+  [user]
+  default=<YOUR_USER_NAME>
+into it so that the correct user-account is used to
+connect to WSL2 from VSCode!
 
+This is really irritating, because nobody at M$oft
+actually can be bothered to tell you this, but when it
+is not there, then VSCode's stuff runs as root user inside
+of Linux, which colossally screws up all kinds of things.
+
+In fact, this is probably at the root of my
+  "nx plugin thing won't work correctly"
+when I try to use it from VSCode, etc...
 
 
 ** JavaScript
 *** modules
 **** import-ing
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
 **** export-ing
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
+**** Links
+Survey of Modules:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
+
 *** var, let, const and variable scopes
 **** var means it's a "global" scope variable
 **** let means it's a "local-to-enclosing-block" variable
@@ -1207,3 +1289,31 @@ followers-ofJesus to engage, and care for the sojourner who crosses
 their path, and also to be magistrates/judges/officials who try to
 apply "one law for the native and for the stranger who sojourns among
 you."
+
+** vision at lw:
++ "reach 300k church leaders" is a goal
++ senior pastors?  No, reaching *all* of the church leaders...
++ stated goal to get CSB to be preferred translation?
+  {I mean, I guess I'm okay if by that they mean that they
+  want people to use CSB lots and lots, and it is a good
+  translation.  But I'm not a "translation chauvinist,"
+  either.  And I'm interested in the use of multiple
+  translations, for this helps guard against the translation
+  chauvinism, and helps educate literate Christians in the
+  nuances of natural language.  Natural language is a tool
+  God has granted to us as human beings, and we all need to
+  understand, realize, that language has nuance and it's not
+  always possible to render Hebrew into English in a precise
+  fashion, for example.}
++ 
+** microsoft is staying, evidently
+[2024-11-20 Wed 11:22] from a huddle, one of the questions
+they tried to answer, regarding whether or not moving back
+to google would be conceivable in near future:
+tons of effort to move to microsoft office 365;
+short answer was, "Not gonna even think about that
+within the next year, and after that, we might start
+to think about it; there's a non-zero cost to switching back."
+
+{This is okay with me, so long as we don't succumb to the
+"sunk cost fallacy..."}
